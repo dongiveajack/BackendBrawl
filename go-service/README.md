@@ -1,7 +1,7 @@
 # Go Service
 
 ## Prerequisites
-- Go 1.21+
+- Go 1.23+
 - Redis running on `localhost:6379`
 
 ## Run
@@ -14,4 +14,6 @@ go run main.go
 ```
 
 The service listens on port 8080.
-Endpoint: `GET /cache`
+Endpoints:
+- `GET /cache`: Get value from Redis
+- `GET /metrics`: Prometheus metrics

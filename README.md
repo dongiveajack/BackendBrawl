@@ -14,9 +14,11 @@ We push them to the limit with **2500 concurrent users (VUs)** hammering a Redis
 - **`go-service/`**: Go implementation using `net/http` and `go-redis`.
 - **`java-service/`**: Java implementation using Spring Boot 3 and Lettuce.
 - **`python-service/`**: Python implementation using FastAPI and `redis-py` (async).
+- **`prometheus.yml`**: Configuration for Prometheus scraping all services.
 - **`loadtest.js`**: K6 load testing script with scenarios for each language.
 - **`monitor.sh`**: Shell script to orchestrate the test and capture real-time CPU/Memory stats.
 - **`analyze_stats.py`**: Python script to generate a resource usage summary after the test.
+- **Observability**: Prometheus (metrics storage) and Grafana (visualization).
 
 ## 🚀 Prerequisites
 
@@ -59,6 +61,17 @@ podman run -d --name java-bench --network bench-net -p 8081:8081 --env SPRING_DA
 podman run -d --name python-bench --network bench-net -p 8082:8082 --env REDIS_HOST=redis python-bench
 ```
 
+### 5. Setup Observability
+```bash
+# Start Prometheus
+podman run -d --name prometheus --network bench-net -p 9090:9090 -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml:Z prom/prometheus
+
+# Start Grafana
+podman run -d --name grafana --network bench-net -p 3000:3000 grafana/grafana
+```
+- **Prometheus**: Access at [http://localhost:9090](http://localhost:9090)
+- **Grafana**: Access at [http://localhost:3000](http://localhost:3000) (Default: `admin/admin`)
+
 ## 📊 Running the Benchmark
 
 We use a consolidated script to fail-safe the process: run the load test, capture streaming metrics, and generate a final report.
@@ -84,9 +97,9 @@ The services are tuned for high concurrency (tested with up to 2000 concurrent V
 
 - **`loadtest.js`**: Adjust VUs, duration, and stages in the `options.scenarios` object.
 - **Ports**:
-    - Go: `:8080`
-    - Java: `:8081`
-    - Python: `:8082`
+    - Go: `:8080/metrics`
+    - Java: `:8081/actuator/prometheus`
+    - Python: `:8082/metrics`
 
 ## 🧹 Cleanup
 

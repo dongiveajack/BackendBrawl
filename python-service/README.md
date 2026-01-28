@@ -15,4 +15,6 @@ uvicorn main:app --port 8082 --log-level error
 ```
 
 The service listens on port 8082 (to avoid conflict with others).
-Endpoint: `GET /cache`
+Endpoints:
+- `GET /cache`: Get value from Redis
+- `GET /metrics`: Prometheus metrics

@@ -12,4 +12,6 @@ mvn spring-boot:run
 ```
 
 The service listens on port 8081 (to avoid conflict with Go on 8080).
-Endpoint: `GET /cache`
+Endpoints:
+- `GET /cache`: Get value from Redis
+- `GET /actuator/prometheus`: Prometheus metrics
