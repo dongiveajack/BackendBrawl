@@ -113,6 +113,28 @@ podman rm -f redis go-bench java-bench python-bench
 podman network rm bench-net
 ```
 
+## ☸️ Kubernetes Deployment
+
+To deploy the entire stack to Kubernetes (e.g., Minikube, Kind):
+
+### 1. Apply Manifests
+```bash
+kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/redis.yaml
+kubectl apply -f k8s/prometheus.yaml
+kubectl apply -f k8s/grafana.yaml
+kubectl apply -f k8s/services.yaml
+```
+
+### 2. Access Dashboards
+```bash
+# Prometheus
+kubectl port-forward svc/prometheus -n backend-brawl 9090:9090
+
+# Grafana
+kubectl port-forward svc/grafana -n backend-brawl 3000:3000
+```
+
 ## ❓ Troubleshooting
 
 - **`Connection refused`**: Ensure all containers are running on the `bench-net` network.
