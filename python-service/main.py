@@ -21,8 +21,11 @@ async def lifespan(app: FastAPI):
     await client.aclose()
     await pool.disconnect()
 
+from prometheus_fastapi_instrumentator import Instrumentator
+
 # Disable unnecessary logging (uvicorn handles this via config mostly, but we can reduce internal logs)
 app = FastAPI(lifespan=lifespan)
+Instrumentator().instrument(app).expose(app)
 
 @app.get("/cache")
 async def get_cache():

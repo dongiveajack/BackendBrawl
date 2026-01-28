@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -54,6 +55,7 @@ func main() {
 	// Disable unnecessary logging (default go log is quiet unless called)
 
 	http.HandleFunc("/cache", handleCache)
+	http.Handle("/metrics", promhttp.Handler())
 
 	// Use a custom server for better control if needed, but http.ListenAndServe is fine for this scope
 	// Go's net/http is high performance enough.
