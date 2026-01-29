@@ -13,6 +13,7 @@ We push them to the limit with **2500 concurrent users (VUs)** hammering a Redis
 
 - **`go-service/`**: Go implementation using `net/http` and `go-redis`.
 - **`java-service/`**: Java implementation using Spring Boot 3 and Lettuce.
+- **`java-native-service/`**: GraalVM Native Image version of the Java service.
 - **`python-service/`**: Python implementation using FastAPI and `redis-py` (async).
 - **`prometheus.yml`**: Configuration for Prometheus scraping all services.
 - **`loadtest.js`**: K6 load testing script with scenarios for each language.
@@ -100,6 +101,7 @@ The services are tuned for high concurrency (tested with up to 2000 concurrent V
     - Go: `:8080/metrics`
     - Java: `:8081/actuator/prometheus`
     - Python: `:8082/metrics`
+    - Java Native: `:8083/actuator/prometheus`
 
 ## 🧹 Cleanup
 

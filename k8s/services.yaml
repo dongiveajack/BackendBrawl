@@ -126,3 +126,46 @@ spec:
   - protocol: TCP
     port: 8082
     targetPort: 8082
+---
+# Java Service (Native)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-native-service
+  namespace: backend-brawl
+  labels:
+    app: java-native-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-native-service
+  template:
+    metadata:
+      labels:
+        app: java-native-service
+    spec:
+      containers:
+      - name: java-native-service
+        image: java-native-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8083
+        env:
+        - name: REDIS_HOST
+          value: "redis"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-native-service
+  namespace: backend-brawl
+  labels:
+    app: java-native-service
+spec:
+  selector:
+    app: java-native-service
+  ports:
+  - protocol: TCP
+    port: 8083
+    targetPort: 8083
